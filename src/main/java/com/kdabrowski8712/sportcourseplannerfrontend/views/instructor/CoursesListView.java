@@ -9,18 +9,16 @@ import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Route(InstructorCourseView.ROUTE)
+@Route(CoursesListView.ROUTE)
 @StyleSheet("css/styles.css")
-public class InstructorCourseView extends InstructorBaseView {
+public class CoursesListView extends InstructorBaseView {
 
     private Grid<CourseDto> courses;
     public final static String ROUTE = "instructor/courses";
@@ -30,14 +28,14 @@ public class InstructorCourseView extends InstructorBaseView {
 
     private  NativeButtonRenderer<CourseDto> removeRenderer;
 
-    public InstructorCourseView() {
+    public CoursesListView() {
 
         courses = new Grid<>();
         courses.setWidth("50%");
         courses.getStyle().set("margin-top", "10px");
         courses.getStyle().set("margin-left", "30px");
 
-        courseClient = new CourseClient();
+       // courseClient = new CourseClient();
         List<CourseDto> courseSlist = courseClient.getAll();
 
         System.out.println(courseSlist.size());
@@ -57,13 +55,18 @@ public class InstructorCourseView extends InstructorBaseView {
         addButton.setWidth("10%");
         addButton.getStyle().set("margin-left", "30px");
 
+        addButton.addClickListener(event -> {
+            getUI().get().navigate(CourseAddView.class);
+        });
+
+
         content.add(myC);
         content.add(addButton);
 
         Column<CourseDto> vcolumn = courses.addColumn(new NativeButtonRenderer<>("View", clickedItem -> {
 
             VaadinSession.getCurrent().setAttribute(CourseDto.class, clickedItem);
-            getUI().get().navigate(InstructorCourseDetailView.class, clickedItem.getId().toString());
+            getUI().get().navigate(CourseDetailView.class, clickedItem.getId().toString());
 
         }));
 
@@ -88,34 +91,7 @@ public class InstructorCourseView extends InstructorBaseView {
     public void refresh() {
 
         List<CourseDto> refreshedList = courseClient.getAll();
-
         courses.setItems(refreshedList);
-
-    }
-
-    private VerticalLayout createLayoutBasedOnCourse(CourseDto courseDto) {
-
-        VerticalLayout result = new VerticalLayout();
-        result.setId("coursesDetails");
-
-        result.add(new Span("Description: " + courseDto.getDescription()));
-        result.add(new Span("Start date: " +
-                courseDto.getStartDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-        result.add(new Span("End date: " +
-                courseDto.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-        result.add(new Span("Reservation period start date: " +
-                courseDto.getReservationPeriodStart().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-        result.add(new Span("Reservation period end date: " +
-                courseDto.getReservationPeriodEnd().format(DateTimeFormatter.ISO_LOCAL_DATE)));
-
-        result.add(new Span("Maximum nr of users: " + courseDto.getMaxNrOfUsers()));
-        result.add(new Span("Minimum nr of users: " + courseDto.getMinNrOfUsers()));
-        result.add(new Span("Reservations: "));
-
-        result.setMargin(false);
-
-
-        return result;
 
     }
 }

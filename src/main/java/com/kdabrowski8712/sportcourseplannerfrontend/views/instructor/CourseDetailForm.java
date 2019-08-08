@@ -4,10 +4,12 @@ import com.kdabrowski8712.sportcourseplannerfrontend.domain.CourseDto;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.springframework.format.datetime.DateFormatter;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class InstructorCourseDetailForm extends HorizontalLayout {
+public class CourseDetailForm extends HorizontalLayout {
 
     private final Span name = new Span("Name: ");
     private final Span category = new Span("Category: ");
@@ -24,7 +26,7 @@ public class InstructorCourseDetailForm extends HorizontalLayout {
     private final VerticalLayout addressGrid = new VerticalLayout();
 
 
-    public InstructorCourseDetailForm(CourseDto courseDto) {
+    public CourseDetailForm(CourseDto courseDto) {
 
         detailsGrid.add(name);
         detailsGrid.add(category);
@@ -58,9 +60,9 @@ public class InstructorCourseDetailForm extends HorizontalLayout {
         endDate.setText(endDate.getText() + " " +
                 courseDto.getEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE) );
         reservationStartDate.setText(reservationStartDate.getText() + " " +
-                courseDto.getReservationPeriodStart().format(DateTimeFormatter.ISO_LOCAL_DATE) );
+                courseDto.getReservationPeriodStartDAte().format(DateTimeFormatter.ISO_LOCAL_DATE) );
         reservationEndDate.setText(reservationEndDate.getText() + " " +
-                courseDto.getReservationPeriodEnd().format(DateTimeFormatter.ISO_LOCAL_DATE) );
+                courseDto.getReservationPeriodEndDate().format(DateTimeFormatter.ISO_LOCAL_DATE) );
         price.setText(price.getText() + " " + courseDto.getPrice());
         minNrOfUsers.setText(minNrOfUsers.getText() + " " + courseDto.getMinNrOfUsers());
         maxNrOfUsers.setText(maxNrOfUsers.getText() + " " + courseDto.getMaxNrOfUsers());

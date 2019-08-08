@@ -6,14 +6,11 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-
+@Component
 @Getter
-@Setter
+@NoArgsConstructor
 public class BackEndConfig {
 
-    public BackEndConfig() {
-        backednAPIRoot = "http://localhost:8080";
-    }
-
+    @Value("${api.endpoint}")
     private String backednAPIRoot;
 }

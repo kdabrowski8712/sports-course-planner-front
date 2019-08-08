@@ -1,7 +1,6 @@
 package com.kdabrowski8712.sportcourseplannerfrontend.views.instructor;
 
 import com.kdabrowski8712.sportcourseplannerfrontend.views.base.BaseView;
-import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.html.Anchor;
 
 
@@ -19,7 +18,7 @@ public class InstructorBaseView extends BaseView {
 
     private void setHandlers() {
 
-        mItem1.setHref(InstructorCourseView.ROUTE);
+        mItem1.setHref(CoursesListView.ROUTE);
     }
 
 }

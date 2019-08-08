@@ -11,11 +11,11 @@ public abstract class GenericActivityDto {
 
     protected String name;
     protected String description;
-    protected float price;
+    protected double price;
     protected String category;
     protected Address address;
 
-    public GenericActivityDto(String name, String description, float price, String category, Address address) {
+    public GenericActivityDto(String name, String description, double price, String category, Address address) {
         this.name = name;
         this.description = description;
         this.price = price;

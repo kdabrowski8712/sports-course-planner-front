@@ -9,33 +9,33 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@Route(InstructorCourseDetailView.ROUTE)
-public class InstructorCourseDetailView extends InstructorBaseView implements HasUrlParameter<String> {
+@Route(CourseDetailView.ROUTE)
+public class CourseDetailView extends InstructorBaseView implements HasUrlParameter<String> {
 
     private String courseToView;
     private CourseDto courseDtoToView;
-    private InstructorCourseDetailForm instructorCourseDetailForm;
+    private CourseDetailForm courseDetailForm;
     private HorizontalLayout actions;
     private Button editButton;
-    public static final String ROUTE = InstructorCourseView.ROUTE + "/course-details";
+    public static final String ROUTE = CoursesListView.ROUTE + "/course-details";
 
     @Override
     public void setParameter(BeforeEvent event, String parameter) {
         courseToView = parameter;
     }
 
-    public InstructorCourseDetailView() {
+    public CourseDetailView() {
 
         VaadinSession vs = VaadinSession.getCurrent();
         courseDtoToView = VaadinSession.getCurrent().getAttribute(CourseDto.class);
-        instructorCourseDetailForm = new InstructorCourseDetailForm(courseDtoToView);
-        content.add(instructorCourseDetailForm);
+        courseDetailForm = new CourseDetailForm(courseDtoToView);
+        content.add(courseDetailForm);
 
         actions = new HorizontalLayout();
         editButton = new Button("Edit");
 
         editButton.addClickListener(event -> {
-            getUI().get().navigate(InstructorEditCourseView.class,courseDtoToView.getId().toString());
+            getUI().get().navigate(EditCourseView.class,courseDtoToView.getId().toString());
         });
 
 

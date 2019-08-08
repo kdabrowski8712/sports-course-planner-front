@@ -2,6 +2,8 @@ package com.kdabrowski8712.sportcourseplannerfrontend.client;
 
 import com.kdabrowski8712.sportcourseplannerfrontend.config.BackEndConfig;
 import com.kdabrowski8712.sportcourseplannerfrontend.domain.CourseDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -17,11 +19,8 @@ import static java.util.Optional.ofNullable;
 @Service
 public class CourseClient {
 
+    @Autowired
     private BackEndConfig backEndConfig;
-
-    public CourseClient() {
-        this.backEndConfig = new BackEndConfig();
-    }
 
     public List<CourseDto> getAll() {
         RestTemplate restTemplate = new RestTemplate();
@@ -69,6 +68,18 @@ public class CourseClient {
         }
     }
 
+    public CourseDto updateCoures(CourseDto input) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        URI updateURI = buildURIpdateCourse();
+        restTemplate.put(updateURI,input);
+        CourseDto response = getCertainCourse(input.getId());
+        //restTemplate.put(updateURI,input);
+
+        return response;
+
+    }
+
     private URI buildURIAllCourses() {
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackednAPIRoot() +
                 "/apiv1/courses").build().encode().toUri();
@@ -83,11 +94,18 @@ public class CourseClient {
         return uri;
     }
 
-
     private URI buildURICoursesforInstructor(Long id) {
 
         URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackednAPIRoot() +
                 "/apiv1/courses/instructor/" + id).build().encode().toUri();
+
+        return uri;
+    }
+
+    private URI buildURIpdateCourse() {
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackednAPIRoot() +
+                "/apiv1/courses").build().encode().toUri();
 
         return uri;
     }
